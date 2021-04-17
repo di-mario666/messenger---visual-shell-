@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Common package &#8212; документация messanger 0.0.1</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="common-package">
+<h1>Common package<a class="headerlink" href="#common-package" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Пакет общих утилит, использующихся в разных модулях проекта.</p>
+<div class="section" id="answers-py">
+<h2>Скрипт answers.py<a class="headerlink" href="#answers-py" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Содержит словари - ответы сервера</p>
+</div>
+<div class="section" id="configs-json">
+<h2>Скрипт configs.json<a class="headerlink" href="#configs-json" title="Ссылка на этот заголовок">¶</a></h2>
+<p>json файл с константами проекта</p>
+</div>
+<div class="section" id="decorators-py">
+<h2>Скрипт decorators.py<a class="headerlink" href="#decorators-py" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Декораторы логирования:</p>
+<p>common.decorators. <strong>log</strong> (func_to_log)</p>
+<p>Декоратор, выполняющий логирование вызовов функций.
+Сохраняет события типа debug, содержащие информацию о имени вызываемой
+функиции, параметры с которыми вызывается функция, и модуль, вызывающий функцию.</p>
+<p>и common.decorators. <strong>Log</strong> ()</p>
+<p>Декоратор, выполняющий логирование вызовов функций.
+Сохраняет события типа info, содержащие информацию о имени вызываемой
+функиции, параметры с которыми вызывается функция, и модуль, вызывающий функцию.</p>
+<p>common.decorators. <strong>login_required</strong> (func)</p>
+<p>Декоратор, проверяющий, что клиент авторизован на сервере. Проверяет, что
+передаваемый объект сокета находится в списке авторизованных клиентов.
+За исключением передачи словаря-запроса на авторизацию. Если клиент не
+авторизован, генерирует исключение TypeError</p>
+</div>
+<div class="section" id="descryptors-py">
+<h2>Скрипт descryptors.py<a class="headerlink" href="#descryptors-py" title="Ссылка на этот заголовок">¶</a></h2>
+<dl class="py class">
+<dt id="common.descryptors.Port">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">common.descryptors.</span></code><code class="sig-name descname"><span class="pre">Port</span></code><a class="headerlink" href="#common.descryptors.Port" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Класс - дескриптор для номера порта.
+Позволяет использовать только порты с 1023 по 65536.
+При попытке установить неподходящий номер порта генерирует исключение.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="errors-py">
+<h2>Скрипт errors.py<a class="headerlink" href="#errors-py" title="Ссылка на этот заголовок">¶</a></h2>
+<dl class="py class">
+<dt id="common.errors.IncorrectDataReceivedError">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">common.errors.</span></code><code class="sig-name descname"><span class="pre">IncorrectDataReceivedError</span></code><a class="headerlink" href="#common.errors.IncorrectDataReceivedError" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Исключение  - некорректные данные получены от сокета</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.errors.ServerError">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">common.errors.</span></code><code class="sig-name descname"><span class="pre">ServerError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.errors.ServerError" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Исключение - ошибка сервера</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.errors.NonDictInputError">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">common.errors.</span></code><code class="sig-name descname"><span class="pre">NonDictInputError</span></code><a class="headerlink" href="#common.errors.NonDictInputError" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Исключение - аргумент функции не словарь</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.errors.ReqFieldMissingError">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">common.errors.</span></code><code class="sig-name descname"><span class="pre">ReqFieldMissingError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">missing_field</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.errors.ReqFieldMissingError" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Ошибка - отсутствует обязательное поле в принятом словаре</p>
+</dd></dl>
+
+</div>
+<div class="section" id="metaclasses-py">
+<h2>Скрипт metaclasses.py<a class="headerlink" href="#metaclasses-py" title="Ссылка на этот заголовок">¶</a></h2>
+<dl class="py class">
+<dt id="common.metaclasses.ServerMaker">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">common.metaclasses.</span></code><code class="sig-name descname"><span class="pre">ServerMaker</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clsname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clsdict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.metaclasses.ServerMaker" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Метакласс, проверяющий что в результирующем классе нет клиентских
+вызовов таких как: connect. Также проверяется, что серверный
+сокет является TCP и работает по IPv4 протоколу.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.metaclasses.ClientMaker">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">common.metaclasses.</span></code><code class="sig-name descname"><span class="pre">ClientMaker</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clsname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clsdict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#common.metaclasses.ClientMaker" title="Ссылка на это определение">¶</a></dt>
+<dd><p>Метакласс, проверяющий что в результирующем классе нет серверных
+вызовов таких как: accept, listen. Также проверяется, что сокет не
+создаётся внутри конструктора класса.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="utils-py">
+<h2>Скрипт utils.py<a class="headerlink" href="#utils-py" title="Ссылка на этот заголовок">¶</a></h2>
+<p>common.utils. <strong>get_message</strong> (opened_socket, CONFIGS)</p>
+<p>Функция приёма сообщений от удалённых компьютеров. Принимает сообщения JSON,
+декодирует полученное сообщение и проверяет что получен словарь.</p>
+<p>common.utils. <strong>send_message</strong> (opened_socket, message, CONFIGS)</p>
+<p>Функция отправки словарей через сокет. Кодирует словарь в формат JSON и
+отправляет через сокет.</p>
+<p>common.utils. <strong>get_configs</strong> ()</p>
+<p>Функция получения словаря из json файла с настройками</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">messanger</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Dmitriy Gerasimov.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/common.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
