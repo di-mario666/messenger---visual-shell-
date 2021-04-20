@@ -1,137 +1,148 @@
-"""Реализовать простое клиент-серверное взаимодействие по протоколу JIM (JSON instant messaging):
-    клиент отправляет запрос серверу;
-    сервер отвечает соответствующим кодом результата.
-    Клиент и сервер должны быть реализованы в виде отдельных скриптов, содержащих соответствующие функции.
-Функции клиента: 
-сформировать presence-сообщение; 
-отправить сообщение серверу; 
-получить ответ сервера; 
-разобрать сообщение сервера; 
-параметры командной строки скрипта client.py <addr> [<port>]: addr — ip-адрес сервера; 
-port — tcp-порт на сервере, по умолчанию 7777. 
-Функции сервера: 
-принимает сообщение клиента; 
-формирует ответ клиенту; 
-отправляет ответ клиенту; 
-имеет параметры командной строки: -p <port> — TCP-порт для работы (по умолчанию использует 7777); -a <addr> — IP-адрес для прослушивания (по умолчанию слушает все доступные адреса)"""
-
-import json
+import os
 import sys
-import time
 import argparse
-from socket import socket, AF_INET, SOCK_STREAM
-from common.utils import get_configs, get_message, send_message
+
+from Cryptodome.PublicKey import RSA
+from PyQt5.QtWidgets import QApplication, QMessageBox
+
+from common.utils import get_configs
+from common.decorators import log
+from common.errors import ServerError
 from log.client_log import client_logger
-from log.log_decor import Log
+from client.main_window import ClientMainWindow
+from client.start_dialog import UserNameDialog
+from client.transport import ClientTransport
+from client.database import ClientDatabase
 
 CONFIGS = get_configs()
 
 
-# функция формирует presence-сообщение
-@Log('DEBUG')
-def create_presence_message(CONFIGS):
-    message = {
-        CONFIGS.get('ACTION'): CONFIGS.get('PRESENCE'),
-        CONFIGS.get('TIME'): time.ctime(time.time()),
-        "type": "status",
-        CONFIGS.get('USER'): {
-            CONFIGS.get('ACCOUNT_NAME'): "di-mario",
-            "status": "Привет, сервер!"
-        }
-    }
-    return message
-
-
-# функция проверки ответа сервера
-@Log('DEBUG')
-def check_response(message):
-    if CONFIGS.get('RESPONSE') in message:
-        if message[CONFIGS.get('RESPONSE')] == 200:
-            client_logger.debug('ответ от сервера получен')
-            return f'200: OK, {message[CONFIGS.get("ALERT")]}'
-        client_logger.error('произошла ошибка ответа сервера')
-        return f'400: {message[CONFIGS.get("ERROR")]}'
-    raise ValueError
-
-def create_user_message(sock, CONFIGS, account_name='Guest'):
-    message = input('Введите сообщение для отправки (для завершения работы - "q"): ')
-    if message == 'q':
-        sock.close()
-        client_logger.info('Завершение работы по команде пользователя')
-        print('Спасибо за использование нашего сервиса')
-        sys.exit(0)
-    message_dict = {
-        CONFIGS['ACTION']: CONFIGS['MESSAGE'],
-        CONFIGS['TIME']: time.ctime(time.time()),
-        CONFIGS['ACCOUNT_NAME']: account_name,
-        CONFIGS['MESSAGE_TEXT']: message
-    }
-    client_logger.debug(f'Сформирован словарь сообщения: {message_dict}')
-    return message_dict
-
-
-def handle_server_message(message, CONFIG):
-    if CONFIG['ACTION'] in message and message[CONFIG['ACTION']] == CONFIG['MESSAGE'] and CONFIG['SENDER'] in message and CONFIG['MESSAGE_TEXT'] in message:
-        print(f'Получено сообщение от пользователя' f'{message[CONFIG["SENDER"]]}:\n{message[CONFIG["MESSAGE_TEXT"]]}')
-        client_logger.info(f'Получено сообщение от пользователя'
-                           f'{message[CONFIG["SENDER"]]}:\n{message[CONFIG["MESSAGE_TEXT"]]}')
-    else:
-        client_logger.error(f'Получено некорректное сообщение с сервера: {message}')
-
-def main():
-    responses = []
-    # global CONFIGS
-    # параметры командной строки скрипта client.py <addr> [<port>]:
-    parser = argparse.ArgumentParser(description='command line client parameters')
-    parser.add_argument('addr', type=str, nargs='?', default=CONFIGS.get('DEFAULT_IP_ADDRESS'),
-                        help='server ip address')
-    parser.add_argument('port', type=int, nargs='?', default=CONFIGS.get('DEFAULT_PORT'), help='port')
+@log
+def arg_parser():
+    """
+    Парсер аргументов командной строки, возвращает кортеж из 4 элементов
+    адрес сервера, порт, имя пользователя, пароль.
+    Выполняет проверку на корректность номера порта.
+    """
+    parser = argparse.ArgumentParser(
+        description='command line client parameters'
+    )
+    parser.add_argument(
+        'addr',
+        type=str,
+        nargs='?',
+        default=CONFIGS.get('DEFAULT_IP_ADDRESS'),
+        help='server ip address'
+    )
+    parser.add_argument(
+        'port',
+        type=int,
+        nargs='?',
+        default=CONFIGS.get('DEFAULT_PORT'),
+        help='port'
+    )
+    parser.add_argument(
+        '-n',
+        '--name',
+        type=str,
+        default=None,
+        nargs='?',
+        help='client name'
+    )
+    parser.add_argument(
+        '-p',
+        '--password',
+        default='',
+        nargs='?',
+        help='client password'
+    )
     args = parser.parse_args()
-    print(args)
+    server_address = args.addr
+    server_port = args.port
+    client_name = args.name
+    client_passwd = args.password
 
-    # проверка введённых параметров из командной строки вызова клиента
-    try:
-        server_address = args.addr
-        server_port = int(args.port)
-        if not 65535 >= server_port >= 1024:
-            raise ValueError
-    except IndexError:
-        server_address = CONFIGS.get('DEFAULT_IP_ADDRESS')
-        server_port = CONFIGS.get('DEFAULT_PORT')
-        client_logger.warning('Подставлены значения адреса и порта по умолчанию')
-    except ValueError:
-        # print('Порт должен быть указан в пределах от 1024 до 65535')
-        client_logger.critical('Порт должен быть указан в пределах от 1024 до 65535')
-        sys.exit(1)
-    responses = []
-    # При использовании оператора with сокет будет автоматически закрыт
-    with socket(AF_INET, SOCK_STREAM) as sock:  # Создать сокет TCP
-        # устанавливает соединение
-        sock.connect((server_address, server_port))
-        if 'send' in sys.argv:
-            print('клиент в режиме отправки сообщения')
-            while True:
-                try:
-                    # формируем и отправляем сообщение (create_user_message - по спецификации)
-                    send_message(sock, create_user_message(sock, CONFIGS, 'di-mario'), CONFIGS)
+    # проверим подходящий номер порта
+    if not 1023 < server_port < 65536:
+        client_logger.critical(
+            f'Попытка запуска клиента с неподходящим номером порта: '
+            f'{server_port}. '
+            f'Допустимы адреса с 1024 до 65535. Клиент завершается.')
+        exit(1)
 
-                    # ловим сообщение от сервера и проверяем
-                    response = get_message(sock, CONFIGS)
-                    print(response)
-                    checked_response = check_response(response)
-                    print(f'Ответ от сервера: {checked_response}')
-                except (ConnectionResetError, ConnectionError, ConnectionAbortedError):
-                    client_logger.error(f'Соединение с сервером {server_address} было потеряно.')
-        else:
-            print('клиент в режиме слушателя')
-            while True:
-                try:
-                    data = sock.recv(CONFIGS.get('MAX_PACKAGE_LENGTH')).decode(CONFIGS.get('ENCODING'))
-                    if data:
-                        # responses.append(data)
-                        print('Ответ: ', data)
-                except (ConnectionResetError, ConnectionError, ConnectionAbortedError):
-                    client_logger.error(f'Соединение с сервером {server_address} было потеряно.')
+    return server_address, server_port, client_name, client_passwd
 
+
+# Основная функция клиента
 if __name__ == '__main__':
-    main()
+    # Загружаем параметы коммандной строки
+    server_address, server_port, client_name, client_passwd = arg_parser()
+    client_logger.debug('Args loaded')
+
+    # Создаём клиентское приложение
+    client_app = QApplication(sys.argv)
+
+    # Если имя пользователя не было указано в командной строке то запросим его
+    start_dialog = UserNameDialog()
+    if not client_name or not client_passwd:
+        client_app.exec_()
+        # Если пользователь ввёл имя и нажал ОК, то сохраняем ведённое и
+        # удаляем объект, иначе выходим
+        if start_dialog.ok_pressed:
+            client_name = start_dialog.client_name.text()
+            client_passwd = start_dialog.client_passwd.text()
+            client_logger.debug(f'Using USERNAME = {client_name}, '
+                                f'PASSWD = {client_passwd}.')
+        else:
+            exit(0)
+
+    # Записываем логи
+    client_logger.info(
+        f'Запущен клиент с парамертами: адрес сервера: {server_address} , '
+        f'порт: {server_port}, имя пользователя: {client_name}')
+
+    # Загружаем ключи с файла, если же файла нет, то генерируем новую пару.
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    key_file = os.path.join(dir_path, f'{client_name}.key')
+    if not os.path.exists(key_file):
+        keys = RSA.generate(2048, os.urandom)
+        with open(key_file, 'wb') as key:
+            key.write(keys.export_key())
+    else:
+        with open(key_file, 'rb') as key:
+            keys = RSA.import_key(key.read())
+
+    # keys.publickey().export_key()
+    client_logger.debug("Keys sucsessfully loaded.")
+
+    # Создаём объект базы данных
+    database = ClientDatabase(client_name)
+    # Создаём объект - транспорт и запускаем транспортный поток
+    try:
+        transport = ClientTransport(
+            server_port,
+            server_address,
+            database,
+            client_name,
+            client_passwd,
+            keys)
+        client_logger.debug("Transport ready.")
+    except ServerError as error:
+        message = QMessageBox()
+        message.critical(start_dialog, 'Ошибка сервера', error.text)
+        exit(1)
+    transport.setDaemon(True)
+    transport.start()
+
+    # Удалим объект диалога за ненадобностью
+    del start_dialog
+
+    # Создаём GUI
+    main_window = ClientMainWindow(database, transport, keys)
+    main_window.make_connection(transport)
+    main_window.setWindowTitle(f'Чат Программа alpha release - {client_name}')
+    client_app.exec_()
+
+    # Раз графическая оболочка закрылась, закрываем транспорт
+    transport.transport_shutdown()
+    transport.join()

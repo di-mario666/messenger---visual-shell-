@@ -1,0 +1,68 @@
+2021-04-20 18:18:49,702 - DEBUG - decorators - Была вызвана функция arg_parser c параметрами () , {}. Вызов из модуля __main__ 
+2021-04-20 18:18:49,717 - DEBUG - client - Args loaded 
+2021-04-20 18:19:03,912 - DEBUG - client - Using USERNAME = di-mario, PASSWD = 123456. 
+2021-04-20 18:19:03,912 - INFO - client - Запущен клиент с парамертами: адрес сервера: 127.0.0.1 , порт: 7777, имя пользователя: di-mario 
+2021-04-20 18:19:08,499 - DEBUG - client - Keys sucsessfully loaded. 
+2021-04-20 18:19:09,201 - INFO - transport - Попытка подключения №1 
+2021-04-20 18:19:09,201 - DEBUG - transport - Connection established. 
+2021-04-20 18:19:09,201 - DEBUG - transport - Starting auth dialog. 
+2021-04-20 18:19:09,263 - DEBUG - transport - Passwd hash ready: b'acaf9386de34effe617b9fceacae78b708faf7805b8f971bdbe1260ea78cb541c8e5d5fb2dc2d9b718de4594f618ffdef9357037cf816f35981dac6c3d773985' 
+2021-04-20 18:19:09,263 - DEBUG - transport - Presence message = {'action': 'presence', 'time': 1618931949.2638965, 'user': {'account_name': 'di-mario', 'pubkey': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApCu8AzRy6UbvdyYLbg36\n6nNN+RW1cIlZMdd9o/dXFEdXTrE3BfxjH0X0Xx9gXruAmXY77TVCip/yuuvHhPve\nt3RYW0y79xhJRd+O8vtD0SMN0PY5ntm6RzykFaFDTej6Zw+qLtIIdc3pXs1MKQ0J\nJXIbRRf6Mj30m4au2V0Ee3Tz/VRLqGeeGm1ykJanpc8ZpGRrWapcEQG3DZtsNYoI\nII6rlqxpmyVBJPprfetJndsbRE32baeHUupg4Fafg8KMqOM63loEReQmqvBnW3Jn\nUXqWnacNc2OOWj18f1eCbVfQYpPeqwmnk0Wg/wJf9/18KoYvxaUC/kzlYwLnFKGJ\nzwIDAQAB\n-----END PUBLIC KEY-----'}} 
+2021-04-20 18:19:14,277 - DEBUG - transport - Connection error. 
+Traceback (most recent call last):
+  File "D:\Работа\Geek Brains\ОБУЧЕНИЕ\8.Базы данных и PyQT\messenger---visual-shell-.git\messenger\client\transport.py", line 128, in connection_init
+    ans = get_message(self.transport, CONFIGS)
+  File "D:\Работа\Geek Brains\ОБУЧЕНИЕ\8.Базы данных и PyQT\messenger---visual-shell-.git\messenger\common\utils.py", line 16, in get_message
+    encoded_response = opened_socket.recv(CONFIGS.get('MAX_PACKAGE_LENGTH'))
+socket.timeout: timed out
+2021-04-20 18:20:07,518 - DEBUG - decorators - Была вызвана функция arg_parser c параметрами () , {}. Вызов из модуля __main__ 
+2021-04-20 18:20:07,525 - DEBUG - client - Args loaded 
+2021-04-20 18:20:16,372 - DEBUG - client - Using USERNAME = di-mario, PASSWD = 123456. 
+2021-04-20 18:20:16,372 - INFO - client - Запущен клиент с парамертами: адрес сервера: 127.0.0.1 , порт: 7777, имя пользователя: di-mario 
+2021-04-20 18:20:16,504 - DEBUG - client - Keys sucsessfully loaded. 
+2021-04-20 18:20:16,689 - INFO - transport - Попытка подключения №1 
+2021-04-20 18:20:16,689 - DEBUG - transport - Connection established. 
+2021-04-20 18:20:16,689 - DEBUG - transport - Starting auth dialog. 
+2021-04-20 18:20:16,704 - DEBUG - transport - Passwd hash ready: b'acaf9386de34effe617b9fceacae78b708faf7805b8f971bdbe1260ea78cb541c8e5d5fb2dc2d9b718de4594f618ffdef9357037cf816f35981dac6c3d773985' 
+2021-04-20 18:20:16,704 - DEBUG - transport - Presence message = {'action': 'presence', 'time': 1618932016.7048104, 'user': {'account_name': 'di-mario', 'pubkey': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApCu8AzRy6UbvdyYLbg36\n6nNN+RW1cIlZMdd9o/dXFEdXTrE3BfxjH0X0Xx9gXruAmXY77TVCip/yuuvHhPve\nt3RYW0y79xhJRd+O8vtD0SMN0PY5ntm6RzykFaFDTej6Zw+qLtIIdc3pXs1MKQ0J\nJXIbRRf6Mj30m4au2V0Ee3Tz/VRLqGeeGm1ykJanpc8ZpGRrWapcEQG3DZtsNYoI\nII6rlqxpmyVBJPprfetJndsbRE32baeHUupg4Fafg8KMqOM63loEReQmqvBnW3Jn\nUXqWnacNc2OOWj18f1eCbVfQYpPeqwmnk0Wg/wJf9/18KoYvxaUC/kzlYwLnFKGJ\nzwIDAQAB\n-----END PUBLIC KEY-----'}} 
+2021-04-20 18:20:21,718 - DEBUG - transport - Connection error. 
+Traceback (most recent call last):
+  File "D:\Работа\Geek Brains\ОБУЧЕНИЕ\8.Базы данных и PyQT\messenger---visual-shell-.git\messenger\client\transport.py", line 128, in connection_init
+    ans = get_message(self.transport, CONFIGS)
+  File "D:\Работа\Geek Brains\ОБУЧЕНИЕ\8.Базы данных и PyQT\messenger---visual-shell-.git\messenger\common\utils.py", line 16, in get_message
+    encoded_response = opened_socket.recv(CONFIGS.get('MAX_PACKAGE_LENGTH'))
+socket.timeout: timed out
+2021-04-20 18:20:43,688 - DEBUG - decorators - Была вызвана функция arg_parser c параметрами () , {}. Вызов из модуля __main__ 
+2021-04-20 18:20:43,688 - DEBUG - client - Args loaded 
+2021-04-20 18:20:54,172 - DEBUG - client - Using USERNAME = di-mario, PASSWD = 123456\. 
+2021-04-20 18:20:54,172 - INFO - client - Запущен клиент с парамертами: адрес сервера: 127.0.0.1 , порт: 7777, имя пользователя: di-mario 
+2021-04-20 18:20:54,310 - DEBUG - client - Keys sucsessfully loaded. 
+2021-04-20 18:20:54,488 - INFO - transport - Попытка подключения №1 
+2021-04-20 18:20:54,488 - DEBUG - transport - Connection established. 
+2021-04-20 18:20:54,488 - DEBUG - transport - Starting auth dialog. 
+2021-04-20 18:20:54,495 - DEBUG - transport - Passwd hash ready: b'a586b18316808d440fbe8e91f4c62fdf8dc6af7c56a3af936e485977c84dd30c9e8697a816c0d662f486d47b8a40792de4752900c292e8486d14a4a13947bfce' 
+2021-04-20 18:20:54,511 - DEBUG - transport - Presence message = {'action': 'presence', 'time': 1618932054.5111134, 'user': {'account_name': 'di-mario', 'pubkey': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApCu8AzRy6UbvdyYLbg36\n6nNN+RW1cIlZMdd9o/dXFEdXTrE3BfxjH0X0Xx9gXruAmXY77TVCip/yuuvHhPve\nt3RYW0y79xhJRd+O8vtD0SMN0PY5ntm6RzykFaFDTej6Zw+qLtIIdc3pXs1MKQ0J\nJXIbRRf6Mj30m4au2V0Ee3Tz/VRLqGeeGm1ykJanpc8ZpGRrWapcEQG3DZtsNYoI\nII6rlqxpmyVBJPprfetJndsbRE32baeHUupg4Fafg8KMqOM63loEReQmqvBnW3Jn\nUXqWnacNc2OOWj18f1eCbVfQYpPeqwmnk0Wg/wJf9/18KoYvxaUC/kzlYwLnFKGJ\nzwIDAQAB\n-----END PUBLIC KEY-----'}} 
+2021-04-20 18:20:59,524 - DEBUG - transport - Connection error. 
+Traceback (most recent call last):
+  File "D:\Работа\Geek Brains\ОБУЧЕНИЕ\8.Базы данных и PyQT\messenger---visual-shell-.git\messenger\client\transport.py", line 128, in connection_init
+    ans = get_message(self.transport, CONFIGS)
+  File "D:\Работа\Geek Brains\ОБУЧЕНИЕ\8.Базы данных и PyQT\messenger---visual-shell-.git\messenger\common\utils.py", line 16, in get_message
+    encoded_response = opened_socket.recv(CONFIGS.get('MAX_PACKAGE_LENGTH'))
+socket.timeout: timed out
+2021-04-20 18:21:49,783 - DEBUG - decorators - Была вызвана функция arg_parser c параметрами () , {}. Вызов из модуля __main__ 
+2021-04-20 18:21:49,783 - DEBUG - client - Args loaded 
+2021-04-20 18:21:59,270 - DEBUG - client - Using USERNAME = di-mario, PASSWD = 123456. 
+2021-04-20 18:21:59,270 - INFO - client - Запущен клиент с парамертами: адрес сервера: 127.0.0.1 , порт: 7777, имя пользователя: di-mario 
+2021-04-20 18:21:59,402 - DEBUG - client - Keys sucsessfully loaded. 
+2021-04-20 18:21:59,602 - INFO - transport - Попытка подключения №1 
+2021-04-20 18:21:59,602 - DEBUG - transport - Connection established. 
+2021-04-20 18:21:59,602 - DEBUG - transport - Starting auth dialog. 
+2021-04-20 18:21:59,618 - DEBUG - transport - Passwd hash ready: b'acaf9386de34effe617b9fceacae78b708faf7805b8f971bdbe1260ea78cb541c8e5d5fb2dc2d9b718de4594f618ffdef9357037cf816f35981dac6c3d773985' 
+2021-04-20 18:21:59,618 - DEBUG - transport - Presence message = {'action': 'presence', 'time': 1618932119.6183987, 'user': {'account_name': 'di-mario', 'pubkey': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApCu8AzRy6UbvdyYLbg36\n6nNN+RW1cIlZMdd9o/dXFEdXTrE3BfxjH0X0Xx9gXruAmXY77TVCip/yuuvHhPve\nt3RYW0y79xhJRd+O8vtD0SMN0PY5ntm6RzykFaFDTej6Zw+qLtIIdc3pXs1MKQ0J\nJXIbRRf6Mj30m4au2V0Ee3Tz/VRLqGeeGm1ykJanpc8ZpGRrWapcEQG3DZtsNYoI\nII6rlqxpmyVBJPprfetJndsbRE32baeHUupg4Fafg8KMqOM63loEReQmqvBnW3Jn\nUXqWnacNc2OOWj18f1eCbVfQYpPeqwmnk0Wg/wJf9/18KoYvxaUC/kzlYwLnFKGJ\nzwIDAQAB\n-----END PUBLIC KEY-----'}} 
+2021-04-20 18:22:04,631 - DEBUG - transport - Connection error. 
+Traceback (most recent call last):
+  File "D:\Работа\Geek Brains\ОБУЧЕНИЕ\8.Базы данных и PyQT\messenger---visual-shell-.git\messenger\client\transport.py", line 128, in connection_init
+    ans = get_message(self.transport, CONFIGS)
+  File "D:\Работа\Geek Brains\ОБУЧЕНИЕ\8.Базы данных и PyQT\messenger---visual-shell-.git\messenger\common\utils.py", line 16, in get_message
+    encoded_response = opened_socket.recv(CONFIGS.get('MAX_PACKAGE_LENGTH'))
+socket.timeout: timed out

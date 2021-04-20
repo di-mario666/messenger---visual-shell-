@@ -14,7 +14,8 @@ class TestSocket:
 
     def send(self, message_to_send):
         json_test_message = json.dumps(self.test_message)
-        self.encoded_message = json_test_message.encode(self.CONFIGS.get('ENCODING'))
+        self.encoded_message = json_test_message.encode(
+            self.CONFIGS.get('ENCODING'))
         self.received_message = message_to_send
 
     def recv(self, max_len):
@@ -24,7 +25,7 @@ class TestSocket:
 
 class UtilsTestCase(unittest.TestCase):
     CONFIGS = get_configs()
-
+    # CONFIGS['TIME'] = 123456789
 
     def test_get_config_default_port(self):
         self.assertEqual(self.CONFIGS['DEFAULT_PORT'], 7777)
@@ -49,7 +50,7 @@ class UtilsTestCase(unittest.TestCase):
     def test_send_message(self):
         test_message_from_client = {
             'action': 'presence',
-            'time': 555555,
+            'time': 123456789,
             'type': 'status',
             'user': {
                 'account_name': 'di-mario',
@@ -59,12 +60,16 @@ class UtilsTestCase(unittest.TestCase):
 
         test_socket = TestSocket(test_message_from_client)
         send_message(test_socket, test_message_from_client, self.CONFIGS)
-        self.assertEqual(test_socket.encoded_message, test_socket.received_message)
+        self.assertEqual(
+            test_socket.encoded_message,
+            test_socket.received_message)
 
     def test_get_message(self):
         test_message = {"response": "200", "alert": "test"}
         test_socket = TestSocket(test_message)
-        self.assertEqual(get_message(test_socket, self.CONFIGS), {'response': '200', 'alert': 'test'})
+        self.assertEqual(get_message
+                         (test_socket, self.CONFIGS),
+                         {'response': '200', 'alert': 'test'})
 
 
 if __name__ == '__main__':
